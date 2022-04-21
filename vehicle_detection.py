@@ -94,7 +94,7 @@ def vehicle_detector(image):
     # cv2.waitKey(0)
 
     # save the data to a csv file
-    with open("static-data.csv", 'a') as f1:
+    with open("data.csv", 'a') as f1:
         cwriter = csv.writer(f1)
         cwriter.writerow("================================================")
         cwriter.writerow([image," Information ->"])
