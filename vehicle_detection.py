@@ -14,15 +14,9 @@ confThreshold = 0.4
 nmsThreshold = 0.4
 
 
-font_color = (255, 255, 255)
-font_size = 0.7
-font_thickness = 2
-
-
 # Store Coco Names in a list
 classes = "coco.names"
 classNames = open(classes).read().strip().split('\n')
-# print(classNames)
 
 
 # class index for our required detection classes
@@ -30,13 +24,13 @@ required_class_index = [1, 2, 3, 5, 7] # This is 0 index based (check coco names
 detected_classNames = []
 
 
-## Model Files
+# model and weight files
 modelConfiguration = 'yolov3-320.cfg'
 modelWeigheights = 'yolov3-320.weights'
 
 
-# configure the network model
-yolo = cv2.dnn.readNetFromDarknet(modelConfiguration, modelWeigheights)
+# configure the dnn model for yolo3
+yolo = cv2.dnn.readNet(modelConfiguration, modelWeigheights)
 
 
 # Define random colour for each class
@@ -51,7 +45,6 @@ def processor(outputs,img):
     boxes = []
     classIds = []
     confidence_scores = []
-    detection = []
     for output in outputs:
         for detected in output:
             scores = detected[5:]
@@ -67,28 +60,17 @@ def processor(outputs,img):
 
     # Apply Non-Max Suppression
     indices = cv2.dnn.NMSBoxes(boxes, confidence_scores, confThreshold, nmsThreshold)
-    # print(classIds)
+
     if len(indices) > 0:
         for i in indices.flatten():
-            x, y, w, h = boxes[i][0], boxes[i][1], boxes[i][2], boxes[i][3]
-
-            color = [int(c) for c in colors[classIds[i]]]
             name = classNames[classIds[i]]
             detected_classNames.append(name)
 
-            # Draw classname and confidence score 
-            cv2.putText(img,f'{name.upper()} {int(confidence_scores[i]*100)}%',
-                    (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 1)
 
-            # Draw bounding rectangle
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 1)
-            detection.append([x, y, w, h, required_class_index.index(classIds[i])])
+image_files = ['./images/image_1.jpg', './images/image_2.jpg', './images/image_3.jpg', './images/image_4.jpg']
 
 
-image_files = ['leaf_3.jpg', 'images3_2.jpg', 'images4_2.jpg', 'images5_2.jpg']
-
-
-def from_static_image(image):
+def vehicle_detector(image):
     img = cv2.imread(image)
     blob = cv2.dnn.blobFromImage(img, 1 / 255, (input_size, input_size), [0, 0, 0], 1, crop=False)
 
@@ -105,17 +87,11 @@ def from_static_image(image):
     # count the frequency of detected classes
     frequency = collections.Counter(detected_classNames)
     print(frequency)
+    print("========================")
     # print(detected_classNames)
 
-    # Draw counting texts in the frame
-    cv2.putText(img, "Car:        " + str(frequency['car']), (20, 40), cv2.FONT_HERSHEY_SIMPLEX, font_size, font_color, font_thickness)
-    cv2.putText(img, "Motorbike:  " + str(frequency['motorbike']), (20, 60), cv2.FONT_HERSHEY_SIMPLEX, font_size, font_color, font_thickness)
-    cv2.putText(img, "Bicycle :    " + str(frequency['bicycle']), (20, 80), cv2.FONT_HERSHEY_SIMPLEX, font_size, font_color, font_thickness)
-    cv2.putText(img, "Bus:        " + str(frequency['bus']), (20, 80), cv2.FONT_HERSHEY_SIMPLEX, font_size, font_color, font_thickness)
-    cv2.putText(img, "Truck:      " + str(frequency['truck']), (20, 100), cv2.FONT_HERSHEY_SIMPLEX, font_size, font_color, font_thickness)
-
-    cv2.imshow("image", img)
-    cv2.waitKey(0)
+    # In case user wants to get output for each image only when he/she press a key 
+    # cv2.waitKey(0)
 
     # save the data to a csv file
     with open("static-data.csv", 'a') as f1:
@@ -124,6 +100,7 @@ def from_static_image(image):
         cwriter.writerow([image," Information ->"])
         cwriter.writerow(["Cars -> " + str(frequency['car'])])
         cwriter.writerow(["Bikes -> " + str(frequency['motorbike']) ])
+        cwriter.writerow(["bicycle -> " + str(frequency['bicycle'])])
         cwriter.writerow(["Buses -> " + str(frequency['bus'])])
         cwriter.writerow(["Trucks -> " + str(frequency['truck'])])
     f1.close()
@@ -131,4 +108,4 @@ def from_static_image(image):
 
 if __name__ == '__main__':
     for i in range(len(image_files)):
-        from_static_image(image_files[i])
+        vehicle_detector(image_files[i])
