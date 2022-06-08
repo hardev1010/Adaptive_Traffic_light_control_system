@@ -4,6 +4,7 @@ import csv      # For writing data in file
 import collections  # For easy output processing
 import numpy as np  # For processing images easily
 import time
+import math
 # import sched
 # import schedule
 
@@ -12,6 +13,8 @@ input_size = 320
 # Time calculation variables
 delayTime = 1
 totalVehicles = 0
+totalAvaliableTime = 180
+singleLaneNum = 0
 
 # thresholds
 confThreshold = 0.4
@@ -60,7 +63,12 @@ def processor(outputs,img):
             detected_classNames.append(name)
 
 
-image_files = ['./images/image_1.jpg', './images/image_2.jpg', './images/image_3.jpg', './images/image_4.jpg', './images/image_6.jpeg', './images/image_7.jpeg', './images/image_8.jpeg', './images/image_9.jpeg']
+image_files = [
+    ['./images/set1/image_1.jpg', './images/set1/image_2.jpg', './images/set1/image_3.jpg', './images/set1/image_4.jpg'],
+    ['./images/set2/image_1.jpg', './images/set2/image_2.jpg', './images/set2/image_3.jpg', './images/set2/image_4.jpg'],
+    ['./images/set3/image_1.jpg', './images/set3/image_2.jpg', './images/set3/image_3.jpg', './images/set3/image_4.jpg'],
+    ['./images/set4/image_1.jpg', './images/set4/image_2.jpg', './images/set4/image_3.jpg', './images/set4/image_4.jpg'],
+]
 
 
 def vehicle_detector(image):
@@ -76,8 +84,10 @@ def vehicle_detector(image):
 
     frequency = collections.Counter(detected_classNames)
     # print(frequency)
+    global singleLaneNum
+    singleLaneNum = frequency['car'] + frequency['motorbike'] + frequency['truck'] + frequency['bicycle'] + frequency['bus']
     global totalVehicles
-    totalVehicles += frequency['car'] + frequency['motorbike'] + frequency['truck'] + frequency['bicycle'] + frequency['bus']
+    totalVehicles += singleLaneNum
     # print("========================")
     # print(detected_classNames)
 
@@ -93,29 +103,65 @@ def vehicle_detector(image):
         cwriter.writerow(["Trucks -> " + str(frequency['truck'])])
     f1.close()    
 
+def timeCalcutor(laneNums):
+    # 0=North, 1=south, 2=east, 3=west
+    allotedTime = []
+    global totalAvaliableTime
+    totalTime = totalAvaliableTime
+    totalCars = 0
+    for laneNum in laneNums:  # For edge case of number of vehicles
+        if(laneNum <= 15):
+            allotedTime.append(15)
+            totalTime -= 45
+        elif(laneNum >= 40):
+            allotedTime.append(40)
+            totalTime -= 45
+        else:
+            allotedTime.append(0)
+            totalCars += laneNum
 
-def timeAlloter():
-    for i in range(len(image_files)):
-        vehicle_detector(image_files[i])
-    global totalVehicles
-    print("Total number of vehicles =", totalVehicles)
-    print("========================")
-    global delayTime
-    delayTime = totalVehicles/10
-    totalVehicles = 0
+    if(totalCars == 0):
+        print("Time allotment -> ")
+        print(allotedTime)
+        return allotedTime
+
+    timePerCar = totalTime/totalCars
+    if(timePerCar > 1.5):
+        timePerCar = 1.4    # To make time allotment more reasonable for less amount of cars
+
+    for i in range(len(laneNums)):
+        if(allotedTime[i] == 0):
+            allotedTime[i] = math.ceil(timePerCar * laneNums[i])
+
+    print("Time allotment -> ")
+    print(allotedTime)
+    return allotedTime
+
+def timeUpdater():
+    for i in range(4):
+        laneVehiclesNum = []
+        for j in range(4):
+            vehicle_detector(image_files[i][j])
+            laneVehiclesNum.append(singleLaneNum)
+        # print(laneVehiclesNum)
+        global totalVehicles
+        print("Total number of vehicles =", totalVehicles)
+        global delayTime
+        timeNums = timeCalcutor(laneVehiclesNum)
+        delayTime = sum(timeNums)
+        print("Delay Time =", delayTime)
+        totalVehicles = 0
+        print("========================")
 
 if __name__ == '__main__':
     # for i in range(len(image_files)):
     #     vehicle_detector(image_files[i])
-
     # while(True):
     #     starter = thd.Timer(delayTime, function_caller)
     #     starter.start()
-
     # schduler = sched.scheduler()
     # schedule.every(delayTime).seconds.do(function_caller)
-
     while(True):
         # schedule.run_pending()
         time.sleep(delayTime)
-        timeAlloter()
+        timeUpdater()
