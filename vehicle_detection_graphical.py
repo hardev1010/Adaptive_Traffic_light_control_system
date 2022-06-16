@@ -74,9 +74,15 @@ def processor(outputs,img):
             # detection.append([x, y, w, h, required_class_index.index(classIds[i])])
 
 
-# image_files = ['./images/image_1.jpg', './images/image_2.jpg', './images/image_3.jpg', './images/image_4.jpg', './images/image_7.jpeg']
-image_files = ['./images/image_1.jpg', './images/image_2.jpg', './images/image_3.jpg', './images/image_4.jpg', './images/image_5.jpeg', './images/image_6.jpeg', './images/image_7.jpeg', './images/image_8.jpeg', './images/image_9.jpeg']
+# image_files = ['./images/image_1.jpg', './images/image_2.jpg', './images/image_3.jpg', './images/image_4.jpg', './images/image_5.jpeg', './images/image_6.jpeg', './images/image_7.jpeg', './images/image_8.jpeg', './images/image_9.jpeg']
 # image_files = ["./images/vid_5_25100.jpg","./images/vid_5_25120.jpg","./images/vid_5_25140.jpg","./images/vid_5_25160.jpg","./images/vid_5_25180.jpg","./images/vid_5_25200.jpg","./images/vid_5_25220.jpg","./images/vid_5_25240.jpg","./images/vid_5_25260.jpg","./images/vid_5_26320.jpg","./images/vid_5_26400.jpg","./images/vid_5_26420.jpg","./images/vid_5_26560.jpg","./images/vid_5_26580.jpg","./images/vid_5_26600.jpg","./images/vid_5_26620.jpg","./images/vid_5_26640.jpg","./images/vid_5_26660.jpg","./images/vid_5_26680.jpg","./images/vid_5_26700.jpg","./images/vid_5_26720.jpg","./images/vid_5_26740.jpg","./images/vid_5_26760.jpg","./images/vid_5_26780.jpg","./images/vid_5_26800.jpg","./images/vid_5_26820.jpg","./images/vid_5_26840.jpg","./images/vid_5_26860.jpg","./images/vid_5_26880.jpg","./images/vid_5_26900.jpg","./images/vid_5_26920.jpg","./images/vid_5_26940.jpg","./images/vid_5_26960.jpg","./images/vid_5_26980.jpg","./images/vid_5_27240.jpg","./images/vid_5_27260.jpg","./images/vid_5_27280.jpg","./images/vid_5_27300.jpg","./images/vid_5_27320.jpg","./images/vid_5_27360.jpg","./images/vid_5_27380.jpg","./images/vid_5_27400.jpg","./images/vid_5_27420.jpg","./images/vid_5_27440.jpg","./images/vid_5_27460.jpg","./images/vid_5_27480.jpg","./images/vid_5_27500.jpg","./images/vid_5_27520.jpg","./images/vid_5_27540.jpg","./images/vid_5_27560.jpg","./images/vid_5_27580.jpg","./images/vid_5_27600.jpg","./images/vid_5_27620.jpg","./images/vid_5_27640.jpg","./images/vid_5_27660.jpg","./images/vid_5_27680.jpg","./images/vid_5_27700.jpg","./images/vid_5_27720.jpg","./images/vid_5_27740.jpg","./images/vid_5_27760.jpg","./images/vid_5_27780.jpg","./images/vid_5_27800.jpg","./images/vid_5_27820.jpg","./images/vid_5_27840.jpg","./images/vid_5_27860.jpg","./images/vid_5_27880.jpg","./images/vid_5_27900.jpg","./images/vid_5_27920.jpg","./images/vid_5_27940.jpg","./images/vid_5_27960.jpg","./images/vid_5_27980.jpg","./images/vid_5_28000.jpg","./images/vid_5_28020.jpg","./images/vid_5_28040.jpg","./images/vid_5_28060.jpg","./images/vid_5_28080.jpg","./images/vid_5_28180.jpg","./images/vid_5_28260.jpg","./images/vid_5_28320.jpg","./images/vid_5_28340.jpg","./images/vid_5_28360.jpg","./images/vid_5_28380.jpg","./images/vid_5_28420.jpg","./images/vid_5_28440.jpg","./images/vid_5_28460.jpg","./images/vid_5_28480.jpg","./images/vid_5_28500.jpg","./images/vid_5_28520.jpg","./images/vid_5_28540.jpg","./images/vid_5_28560.jpg","./images/vid_5_28580.jpg","./images/vid_5_28600.jpg","./images/vid_5_28620.jpg","./images/vid_5_28640.jpg","./images/vid_5_28660.jpg","./images/vid_5_28680.jpg","./images/vid_5_28700.jpg","./images/vid_5_29000.jpg","./images/vid_5_29020.jpg","./images/vid_5_29040.jpg","./images/vid_5_29060.jpg","./images/vid_5_29080.jpg","./images/vid_5_29100.jpg","./images/vid_5_29400.jpg","./images/vid_5_29420.jpg","./images/vid_5_29440.jpg","./images/vid_5_29460.jpg","./images/vid_5_29480.jpg","./images/vid_5_29500.jpg","./images/vid_5_29520.jpg","./images/vid_5_29540.jpg","./images/vid_5_29560.jpg","./images/vid_5_29580.jpg","./images/vid_5_29600.jpg","./images/vid_5_29620.jpg","./images/vid_5_29640.jpg","./images/vid_5_29720.jpg","./images/vid_5_29740.jpg","./images/vid_5_29760.jpg","./images/vid_5_29820.jpg","./images/vid_5_29840.jpg","./images/vid_5_29860.jpg","./images/vid_5_29880.jpg","./images/vid_5_29900.jpg","./images/vid_5_29980.jpg","./images/vid_5_30000.jpg","./images/vid_5_30020.jpg","./images/vid_5_30040.jpg","./images/vid_5_30120.jpg","./images/vid_5_30140.jpg","./images/vid_5_30160.jpg","./images/vid_5_30180.jpg","./images/vid_5_30640.jpg","./images/vid_5_30660.jpg","./images/vid_5_30680.jpg","./images/vid_5_30700.jpg","./images/vid_5_30720.jpg","./images/vid_5_30740.jpg","./images/vid_5_30760.jpg","./images/vid_5_30820.jpg","./images/vid_5_30840.jpg","./images/vid_5_30860.jpg","./images/vid_5_30920.jpg","./images/vid_5_30940.jpg","./images/vid_5_31020.jpg","./images/vid_5_31040.jpg","./images/vid_5_31060.jpg","./images/vid_5_31080.jpg","./images/vid_5_31100.jpg","./images/vid_5_31120.jpg","./images/vid_5_31140.jpg","./images/vid_5_31160.jpg","./images/vid_5_31180.jpg","./images/vid_5_31200.jpg","./images/vid_5_31260.jpg","./images/vid_5_31280.jpg","./images/vid_5_31300.jpg","./images/vid_5_31360.jpg","./images/vid_5_31380.jpg","./images/vid_5_31400.jpg","./images/vid_5_31420.jpg","./images/vid_5_31480.jpg","./images/vid_5_31500.jpg","./images/vid_5_31520.jpg","./images/vid_5_31560.jpg","./images/vid_5_31600.jpg","./images/vid_5_31620.jpg","./images/vid_5_31640.jpg","./images/vid_5_31660.jpg","./images/vid_5_31680.jpg","./images/vid_5_31700.jpg","./images/vid_5_31720.jpg"]
+image_files = [
+    ['./images/set1/image_1.jpg', './images/set1/image_2.jpg', './images/set1/image_3.jpg', './images/set1/image_4.jpg'],
+    ['./images/set2/image_1.jpg', './images/set2/image_2.jpg', './images/set2/image_3.jpg', './images/set2/image_4.jpg'],
+    ['./images/set3/image_1.jpg', './images/set3/image_2.jpg', './images/set3/image_3.jpg', './images/set3/image_4.jpg'],
+    ['./images/set4/image_1.jpg', './images/set4/image_2.jpg', './images/set4/image_3.jpg', './images/set4/image_4.jpg'],
+]
+
 
 def vehicle_detector(image):
     img = cv2.imread(image)
@@ -91,8 +97,8 @@ def vehicle_detector(image):
     processor(outputs,img)
 
     frequency = collections.Counter(detected_classNames)
-    print(frequency)
-    # print(detected_classNames)
+    # print(frequency)
+    print(detected_classNames)
 
     # Draw counts
     cv2.putText(img, "Car:        " + str(frequency['car']), (20, 40), font_style, font_size, font_color, font_thickness)
@@ -117,5 +123,6 @@ def vehicle_detector(image):
 
 
 if __name__ == '__main__':
-    for i in range(len(image_files)):
-        vehicle_detector(image_files[i])
+    for i in range(4):
+        for j in range(4):
+            vehicle_detector(image_files[i][j])

@@ -120,7 +120,8 @@ def timeCalcutor(laneNums):
             allotedTime.append(0)
             totalCars += laneNum
 
-    if(totalCars == 0):
+    print(laneNums)
+    if(totalCars == 0):     # All lanes have been alloted the time already
         print("Time allotment -> ")
         print(allotedTime)
         return allotedTime
@@ -138,7 +139,7 @@ def timeCalcutor(laneNums):
     return allotedTime
 
 def timeUpdater():
-    for i in range(4):
+    for i in range(4):      # For testing
         laneVehiclesNum = []
         for j in range(4):
             vehicle_detector(image_files[i][j])
@@ -148,7 +149,8 @@ def timeUpdater():
         print("Total number of vehicles =", totalVehicles)
         global delayTime
         timeNums = timeCalcutor(laneVehiclesNum)
-        delayTime = sum(timeNums)
+        # As we will be getting a delay of 2.5 to 2.8 seconds so we subtracted 3 seconds to compansate for it
+        delayTime = sum(timeNums) - 3
         print("Delay Time =", delayTime)
         totalVehicles = 0
         print("========================")
