@@ -5,8 +5,6 @@ import collections  # For easy output processing
 import numpy as np  # For processing images easily
 import time
 import math
-# import sched
-# import schedule
 
 input_size = 320
 
@@ -67,7 +65,6 @@ image_files = [
     ['./images/set1/image_1.jpg', './images/set1/image_2.jpg', './images/set1/image_3.jpg', './images/set1/image_4.jpg'],
     ['./images/set2/image_1.jpg', './images/set2/image_2.jpg', './images/set2/image_3.jpg', './images/set2/image_4.jpg'],
     ['./images/set3/image_1.jpg', './images/set3/image_2.jpg', './images/set3/image_3.jpg', './images/set3/image_4.jpg'],
-    ['./images/set4/image_1.jpg', './images/set4/image_2.jpg', './images/set4/image_3.jpg', './images/set4/image_4.jpg'],
 ]
 
 
@@ -83,13 +80,10 @@ def vehicle_detector(image):
     processor(outputs,img)
 
     frequency = collections.Counter(detected_classNames)
-    # print(frequency)
     global singleLaneNum
     singleLaneNum = frequency['car'] + frequency['motorbike'] + frequency['truck'] + frequency['bicycle'] + frequency['bus']
     global totalVehicles
     totalVehicles += singleLaneNum
-    # print("========================")
-    # print(detected_classNames)
 
     # save the data to a csv file
     with open("data.csv", 'a') as f1:
@@ -156,14 +150,6 @@ def timeUpdater():
         print("========================")
 
 if __name__ == '__main__':
-    # for i in range(len(image_files)):
-    #     vehicle_detector(image_files[i])
-    # while(True):
-    #     starter = thd.Timer(delayTime, function_caller)
-    #     starter.start()
-    # schduler = sched.scheduler()
-    # schedule.every(delayTime).seconds.do(function_caller)
     while(True):
-        # schedule.run_pending()
         time.sleep(delayTime)
         timeUpdater()
